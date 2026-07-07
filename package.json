@@ -1,0 +1,27 @@
+{
+  "name": "shadowrun-anarchy-2-dice-roller",
+  "version": "1.0.0",
+  "description": "Shadowrun Anarchy 2.0 Dice Roller - A Discord Bot",
+  "homepage": "https://github.com/ocreeva/shadowrun-anarchy-2-dice-roller#readme",
+  "bugs": {
+    "url": "https://github.com/ocreeva/shadowrun-anarchy-2-dice-roller/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ocreeva/shadowrun-anarchy-2-dice-roller.git"
+  },
+  "license": "MIT",
+  "author": "ocreeva",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "commands": "npm run build && node --enable-source-maps dist/commands.js",
+    "start": "npm run build && node --enable-source-maps dist/bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.26.4"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}

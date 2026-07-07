@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es2025",
+        "module": "esnext",
+        "lib": [ "ESNext" ],
+
+        "outDir": "./dist",
+        "rootDir": "./src",
+
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "strict": true,
+    },
+    "exclude": [ "dist", "node_modules" ]
+}
