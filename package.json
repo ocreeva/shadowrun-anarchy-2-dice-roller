@@ -19,7 +19,8 @@
     "start": "npm run build && node --enable-source-maps dist/bot.js"
   },
   "dependencies": {
-    "discord.js": "^14.26.4"
+    "discord.js": "^14.26.4",
+    "dotenv": "^17.4.2"
   },
   "devDependencies": {
     "typescript": "^6.0.3"
