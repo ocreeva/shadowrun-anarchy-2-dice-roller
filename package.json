@@ -14,9 +14,10 @@
   "author": "ocreeva",
   "type": "module",
   "scripts": {
+    "bot": "npm run build && tsx dist/controllers/Bot.js",
     "build": "tsc --project tsconfig.json",
     "commands": "npm run build && tsx dist/controllers/Commands.js",
-    "start": "npm run build && tsx dist/bot.js"
+    "start": "npm run bot"
   },
   "dependencies": {
     "discord.js": "^14.26.4",
