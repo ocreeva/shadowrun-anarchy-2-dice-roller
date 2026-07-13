@@ -1,9 +1,9 @@
-import '../services/Env';
+import '@/services/Env';
 
 import { REST, Routes } from 'discord.js';
 
-import { RollUICommand } from '../commands';
-import { Log } from '../services';
+import { RollUICommand } from '@/commands';
+import { Log } from '@/services';
 
 const commandData = [
     RollUICommand.data,
