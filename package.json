@@ -17,6 +17,7 @@
     "bot": "npm run build && tsx dist/controllers/Bot.js",
     "build": "tsc --project tsconfig.json",
     "commands": "npm run build && tsx dist/controllers/Commands.js",
+    "lint": "eslint . --cache",
     "start": "npm run bot"
   },
   "dependencies": {
@@ -26,9 +27,12 @@
     "pino-pretty": "^13.1.3"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^26.1.0",
+    "eslint": "^10.7.0",
     "tsx": "^4.23.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.63.0"
   },
   "allowScripts": {
     "esbuild@0.28.1": true

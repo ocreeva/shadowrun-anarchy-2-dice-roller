@@ -6,3 +6,6 @@
 
 # environment variables
 .env
+
+# eslint
+.eslintcache

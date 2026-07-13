@@ -18,18 +18,18 @@ async function register() {
 
         await restClient.put(Routes.applicationCommands(process.env.DISCORD_APP_ID), { body: commandData });
 
-        Log.info(`Successfully registered commands.`);
+        Log.info('Successfully registered commands.');
     } catch (err) {
         Log.error('Failed to register commands.', err);
     }
 }
 
 switch (process.argv[2]) {
-    case 'register':
-        register();
-        break;
+case 'register':
+    register();
+    break;
 
-    default:
-        Log.warn(`Unexpected 'commands' action: ${process.argv[2]}`);
-        break;
+default:
+    Log.warn(`Unexpected 'commands' action: ${process.argv[2]}`);
+    break;
 }

@@ -14,7 +14,7 @@ const logger = pino({
 }));
 
 export class Log {
-    public static info(message: string, obj?: any): void {
+    public static info(message: string, obj?: unknown): void {
         if (obj) {
             logger.info(obj, message);
         } else {
@@ -22,7 +22,7 @@ export class Log {
         }
     }
 
-    public static warn(message: string, obj?: any): void {
+    public static warn(message: string, obj?: unknown): void {
         if (obj) {
             logger.warn(obj, message);
         } else {
@@ -30,7 +30,7 @@ export class Log {
         }
     }
 
-    public static error(message: string, obj?: any): void {
+    public static error(message: string, obj?: unknown): void {
         if (obj) {
             logger.error(obj, message);
         } else {
