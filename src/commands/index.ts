@@ -1,4 +1,4 @@
-import * as RollUICommand from './RollUICommand';
+import { RollUICommand } from './RollUICommand';
 
 export {
     RollUICommand,

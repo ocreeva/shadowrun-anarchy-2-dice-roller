@@ -1,9 +1,15 @@
 import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 
-export const data = new SlashCommandBuilder()
-    .setName('sra2')
-    .setDescription('Roll UI for Shadowrun Anarchy 2.0');
+import { ICommand } from './ICommand';
 
-export async function execute(interaction: CommandInteraction) {
-    return interaction.reply('Hello, world!');
+export class RollUICommand implements ICommand {
+    public data = new SlashCommandBuilder()
+        .setName('sra2')
+        .setDescription('Roll UI for Shadowrun Anarchy 2.0');
+
+    public async execute(interaction: CommandInteraction): Promise<void> {
+        await interaction.reply('Hello, world!');
+    }
+
+    public static instance: ICommand = new RollUICommand();
 }

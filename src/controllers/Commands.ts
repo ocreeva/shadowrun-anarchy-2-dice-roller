@@ -6,7 +6,7 @@ import { RollUICommand } from '@/commands';
 import { Log } from '@/services';
 
 const commandData = [
-    RollUICommand.data,
+    RollUICommand.instance.data,
 ];
 
 const restClient = new REST()
