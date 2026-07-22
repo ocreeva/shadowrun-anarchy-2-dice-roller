@@ -17,7 +17,7 @@ export default class RollUICommand implements ICommand {
         const response = await interaction.reply(view.generate());
         const collector = response.createMessageComponentCollector({
             componentType: ComponentType.Button,
-            time: 3_600_000,
+            idle: 300_000,
         });
 
         collector.on('collect', this.collect);
