@@ -1,4 +1,5 @@
-import ICommand from './ICommand';
+import type ICommand from './ICommand';
+
 import RollUICommand from './RollUICommand';
 
 export {

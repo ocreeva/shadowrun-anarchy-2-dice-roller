@@ -1,4 +1,4 @@
-import { ActionRowBuilder, APIMessageTopLevelComponent, ButtonBuilder, ButtonStyle, InteractionReplyOptions, JSONEncodable, MessageFlags } from "discord.js";
+import { ActionRowBuilder, APIMessageTopLevelComponent, ButtonBuilder, ButtonStyle, InteractionReplyOptions, InteractionUpdateOptions, JSONEncodable, MessageFlags } from "discord.js";
 
 import { RollUIModel } from "@/models";
 
@@ -9,17 +9,26 @@ export default class RollUIView {
     constructor(private model: RollUIModel) {}
 
     public generate(): InteractionReplyOptions {
+        return {
+            components: this.render_components(),
+            flags: MessageFlags.Ephemeral,
+        };
+    }
+
+    public update(): InteractionUpdateOptions {
+        return {
+            components: this.render_components(),
+        };
+    }
+
+    private render_components(): JSONEncodable<APIMessageTopLevelComponent>[] {
         const components: JSONEncodable<APIMessageTopLevelComponent>[] = [];
 
-        for (let poolRowIndex = 0; poolRowIndex < this.PoolGridHeight; poolRowIndex++)
-        {
+        for (let poolRowIndex = 0; poolRowIndex < this.PoolGridHeight; poolRowIndex++) {
             components.push(this.render_poolRow(poolRowIndex));
         }
 
-        return {
-            components,
-            flags: MessageFlags.Ephemeral,
-        };
+        return components;
     }
 
     private render_poolRow(rowIndex: number): ActionRowBuilder<ButtonBuilder> {

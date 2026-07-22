@@ -3,7 +3,7 @@ import { ButtonInteraction, CommandInteraction, ComponentType, SlashCommandBuild
 import { RollUIModel } from '@/models';
 import { RollUIView } from '@/views';
 
-import ICommand from './ICommand';
+import type ICommand from './ICommand';
 
 export default class RollUICommand implements ICommand {
     public data = new SlashCommandBuilder()
@@ -20,11 +20,13 @@ export default class RollUICommand implements ICommand {
             idle: 300_000,
         });
 
-        collector.on('collect', this.collect);
+        collector.on('collect', (interaction) => this.collect(interaction, model));
     }
 
-    private async collect(interaction: ButtonInteraction): Promise<void> {
-        interaction.deferUpdate();
+    private async collect(interaction: ButtonInteraction, model: RollUIModel): Promise<void> {
+        const view = new RollUIView(model);
+
+        interaction.update(view.update());
     }
 
     public static instance: ICommand = new RollUICommand();
