@@ -11,13 +11,14 @@ export default class RollUIView {
     public generate(): InteractionReplyOptions {
         return {
             components: this.render_components(),
-            flags: MessageFlags.Ephemeral,
+            flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
         };
     }
 
     public update(): InteractionUpdateOptions {
         return {
             components: this.render_components(),
+            flags: MessageFlags.IsComponentsV2,
         };
     }
 
