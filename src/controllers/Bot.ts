@@ -1,9 +1,9 @@
 import '@/services/Env';
 
 import { Client, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
-import { RollUICommand } from '@/commands';
+
+import { ICommand, RollUICommand } from '@/commands';
 import { Log } from '@/services';
-import { ICommand } from '@/commands/ICommand';
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
