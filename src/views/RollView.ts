@@ -16,7 +16,7 @@ export default class RollView {
     private readonly PoolGridWidth: number = 5;
     private readonly PoolGridHeight: number = 4;
 
-    constructor(private model: RollModel) {}
+    constructor(private readonly model: RollModel) {}
 
     public generate(): InteractionReplyOptions {
         return {
