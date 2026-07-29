@@ -1,5 +1,1 @@
-import RollView from './RollView';
-
-export {
-    RollView,
-};
+export { default as RollView } from './RollView';
