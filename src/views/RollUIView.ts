@@ -29,6 +29,10 @@ export default class RollUIView {
 
         components.push(this.render_separator());
 
+        components.push(...this.render_risk());
+
+        components.push(this.render_separator());
+
         components.push(...this.render_roll());
 
         return components;
@@ -56,6 +60,27 @@ export default class RollUIView {
             .setStyle(value <= this.model.riskDice ? ButtonStyle.Danger : value <= this.model.dicePool ? ButtonStyle.Primary : ButtonStyle.Secondary)
             .setLabel(`${value}`)
             .setCustomId(`${RollUIModel.PoolPrefix}_${value}`);
+    }
+
+    private *render_risk(): Generator<JSONEncodable<APIMessageTopLevelComponent>> {
+        yield this.render_risk_row();
+    }
+
+    private render_risk_row(): ActionRowBuilder<ButtonBuilder> {
+        const rowBuilder = new ActionRowBuilder<ButtonBuilder>();
+
+        for (let index = 0; index <= RollUIModel.MaxRiskReduction; index++) {
+            rowBuilder.addComponents(this.render_risk_button(index));
+        }
+
+        return rowBuilder;
+    }
+
+    private render_risk_button(value: number): ButtonBuilder {
+        return new ButtonBuilder()
+            .setStyle(value === this.model.riskReduction ? ButtonStyle.Primary : ButtonStyle.Secondary)
+            .setLabel(`RR ${value}`)
+            .setCustomId(`${RollUIModel.RiskPrefix}_${value}`);
     }
 
     private *render_roll(): Generator<JSONEncodable<APIMessageTopLevelComponent>> {

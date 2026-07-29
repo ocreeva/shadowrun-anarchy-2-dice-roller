@@ -41,6 +41,10 @@ export default class RollUICommand implements ICommand {
                 this.collect_pool(parseInt(id), model);
                 break;
 
+            case RollUIModel.RiskPrefix:
+                this.collect_risk(parseInt(id), model);
+                break;
+
             case RollUIModel.RollPrefix:
                 // TODO: roll
                 break;
@@ -52,6 +56,11 @@ export default class RollUICommand implements ICommand {
     }
 
     private collect_pool(value: number, model: RollUIModel) {
+        if (value < 0 || value > RollUIModel.MaxDicePool) {
+            Log.warn(`Dice pool collection outside of expected range: ${value}`);
+            return;
+        }
+
         if (model.riskDice === value) {
             model.dicePool = value;
             model.riskDice = 0;
@@ -60,6 +69,15 @@ export default class RollUICommand implements ICommand {
         } else {
             model.riskDice = value;
         }
+    }
+
+    private collect_risk(value: number, model: RollUIModel) {
+        if (value < 0 || value > RollUIModel.MaxRiskReduction) {
+            Log.warn(`Risk reduction collection outside of expected range: ${value}`);
+            return;
+        }
+
+        model.riskReduction = value;
     }
 
     public static instance: ICommand = new RollUICommand();
