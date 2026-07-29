@@ -1,4 +1,4 @@
-export default class RollModel {
+class RollModel {
     public static readonly ModifierPrefix: string = 'mod';
     public static readonly PoolPrefix: string = 'pool';
     public static readonly RiskPrefix: string = 'risk';
@@ -15,4 +15,10 @@ export default class RollModel {
     public riskReduction: number = 0;
     public hasAdvantage: boolean = false;
     public hasDisadvantage: boolean = false;
+
+    public get hitThreshold(): number {
+        return this.hasAdvantage ? 4 : this.hasDisadvantage ? 6 : 5;
+    }
 }
+
+export default RollModel;
