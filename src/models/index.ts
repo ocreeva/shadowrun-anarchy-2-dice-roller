@@ -1,5 +1,5 @@
-import RollUIModel from './RollUIModel';
+import RollModel from './RollModel';
 
 export {
-    RollUIModel,
+    RollModel,
 };

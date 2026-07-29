@@ -1,4 +1,4 @@
-export default class RollUIModel {
+export default class RollModel {
     public static readonly ModifierPrefix: string = 'mod';
     public static readonly PoolPrefix: string = 'pool';
     public static readonly RiskPrefix: string = 'risk';

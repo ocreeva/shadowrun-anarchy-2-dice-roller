@@ -1,8 +1,8 @@
 import { ButtonComponent, ButtonInteraction, CommandInteraction, ComponentType, SlashCommandBuilder } from 'discord.js';
 
-import { RollUIModel } from '@/models';
+import { RollModel } from '@/models';
 import { Log } from '@/services';
-import { RollUIView } from '@/views';
+import { RollView } from '@/views';
 
 import type ICommand from './ICommand';
 
@@ -11,14 +11,14 @@ enum CollectionType {
     Update,
 }
 
-export default class RollUICommand implements ICommand {
+export default class RollCommand implements ICommand {
     public data = new SlashCommandBuilder()
         .setName('sra2')
         .setDescription('Roll UI for Shadowrun Anarchy 2.0');
 
     public async execute(interaction: CommandInteraction): Promise<void> {
-        const model = new RollUIModel();
-        const view = new RollUIView(model);
+        const model = new RollModel();
+        const view = new RollView(model);
 
         const response = await interaction.reply(view.generate());
         const collector = response.createMessageComponentCollector({
@@ -29,7 +29,7 @@ export default class RollUICommand implements ICommand {
         collector.on('collect', (interaction) => this.collect(interaction, model));
     }
 
-    private async collect(interaction: ButtonInteraction, model: RollUIModel): Promise<void> {
+    private async collect(interaction: ButtonInteraction, model: RollModel): Promise<void> {
         const collectionType = this.collect_button(interaction.component as ButtonComponent, model);
 
         switch (collectionType) {
@@ -38,7 +38,7 @@ export default class RollUICommand implements ICommand {
                 break;
 
             case CollectionType.Update:
-                interaction.update(new RollUIView(model).update());
+                interaction.update(new RollView(model).update());
                 break;
 
             default:
@@ -47,24 +47,24 @@ export default class RollUICommand implements ICommand {
         }
     }
 
-    private collect_button(button: ButtonComponent, model: RollUIModel): CollectionType {
+    private collect_button(button: ButtonComponent, model: RollModel): CollectionType {
         if (!button.customId) return CollectionType.Update;
 
         const [ prefix, id ] = button.customId.split('_', 2);
         switch (prefix) {
-            case RollUIModel.PoolPrefix:
+            case RollModel.PoolPrefix:
                 this.collect_pool(parseInt(id), model);
                 return CollectionType.Update;
 
-            case RollUIModel.RiskPrefix:
+            case RollModel.RiskPrefix:
                 this.collect_risk(parseInt(id), model);
                 return CollectionType.Update;
 
-            case RollUIModel.ModifierPrefix:
+            case RollModel.ModifierPrefix:
                 this.collect_modifier(id, model);
                 return CollectionType.Update;
 
-            case RollUIModel.RollPrefix:
+            case RollModel.RollPrefix:
                 return CollectionType.Apply;
 
             default:
@@ -73,8 +73,8 @@ export default class RollUICommand implements ICommand {
         }
     }
 
-    private collect_pool(value: number, model: RollUIModel) {
-        if (value < 0 || value > RollUIModel.MaxDicePool) {
+    private collect_pool(value: number, model: RollModel) {
+        if (value < 0 || value > RollModel.MaxDicePool) {
             Log.warn(`Dice pool collection outside of expected range: ${value}`);
             return;
         }
@@ -89,8 +89,8 @@ export default class RollUICommand implements ICommand {
         }
     }
 
-    private collect_risk(value: number, model: RollUIModel) {
-        if (value < 0 || value > RollUIModel.MaxRiskReduction) {
+    private collect_risk(value: number, model: RollModel) {
+        if (value < 0 || value > RollModel.MaxRiskReduction) {
             Log.warn(`Risk reduction collection outside of expected range: ${value}`);
             return;
         }
@@ -98,14 +98,14 @@ export default class RollUICommand implements ICommand {
         model.riskReduction = value;
     }
 
-    private collect_modifier(modifier: string, model: RollUIModel) {
+    private collect_modifier(modifier: string, model: RollModel) {
         switch (modifier) {
-            case RollUIModel.AdvantageModifierId:
+            case RollModel.AdvantageModifierId:
                 model.hasAdvantage = !model.hasAdvantage;
                 model.hasDisadvantage = false;
                 break;
 
-            case RollUIModel.DisadvantageModifierId:
+            case RollModel.DisadvantageModifierId:
                 model.hasAdvantage = false;
                 model.hasDisadvantage = !model.hasDisadvantage;
                 break;
@@ -116,5 +116,5 @@ export default class RollUICommand implements ICommand {
         }
     }
 
-    public static instance: ICommand = new RollUICommand();
+    public static instance: ICommand = new RollCommand();
 }

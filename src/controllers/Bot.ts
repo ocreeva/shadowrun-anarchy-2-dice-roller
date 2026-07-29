@@ -2,7 +2,7 @@ import '@/services/Env';
 
 import { Client, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 
-import { type ICommand, RollUICommand } from '@/commands';
+import { type ICommand, RollCommand } from '@/commands';
 import { Log } from '@/services';
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -16,8 +16,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     let command: ICommand;
     switch (interaction.commandName) {
-        case RollUICommand.instance.data.name:
-            command = RollUICommand.instance;
+        case RollCommand.instance.data.name:
+            command = RollCommand.instance;
             break;
 
         default:

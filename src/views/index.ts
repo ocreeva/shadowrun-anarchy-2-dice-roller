@@ -1,5 +1,5 @@
-import RollUIView from './RollUIView';
+import RollView from './RollView';
 
 export {
-    RollUIView,
+    RollView,
 };

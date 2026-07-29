@@ -2,11 +2,11 @@ import '@/services/Env';
 
 import { REST, Routes } from 'discord.js';
 
-import { RollUICommand } from '@/commands';
+import { RollCommand } from '@/commands';
 import { Log } from '@/services';
 
 const commandData = [
-    RollUICommand.instance.data,
+    RollCommand.instance.data,
 ];
 
 const restClient = new REST()

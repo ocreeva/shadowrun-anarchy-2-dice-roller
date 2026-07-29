@@ -1,12 +1,22 @@
-import { ActionRowBuilder, APIMessageTopLevelComponent, ButtonBuilder, ButtonStyle, InteractionReplyOptions, InteractionUpdateOptions, JSONEncodable, MessageFlags, SeparatorBuilder } from "discord.js";
+import {
+    ActionRowBuilder,
+    type APIMessageTopLevelComponent,
+    ButtonBuilder,
+    ButtonStyle,
+    type InteractionReplyOptions,
+    type InteractionUpdateOptions,
+    type JSONEncodable,
+    MessageFlags,
+    SeparatorBuilder
+} from "discord.js";
 
-import { RollUIModel } from "@/models";
+import { RollModel } from "@/models";
 
-export default class RollUIView {
+export default class RollView {
     private readonly PoolGridWidth: number = 5;
     private readonly PoolGridHeight: number = 4;
 
-    constructor(private model: RollUIModel) {}
+    constructor(private model: RollModel) {}
 
     public generate(): InteractionReplyOptions {
         return {
@@ -63,7 +73,7 @@ export default class RollUIView {
         return new ButtonBuilder()
             .setStyle(value <= this.model.riskDice ? ButtonStyle.Danger : value <= this.model.dicePool ? ButtonStyle.Primary : ButtonStyle.Secondary)
             .setLabel(`${value}`)
-            .setCustomId(`${RollUIModel.PoolPrefix}_${value}`);
+            .setCustomId(`${RollModel.PoolPrefix}_${value}`);
     }
 
     private *render_risk(): Generator<JSONEncodable<APIMessageTopLevelComponent>> {
@@ -73,7 +83,7 @@ export default class RollUIView {
     private render_risk_row(): ActionRowBuilder<ButtonBuilder> {
         const rowBuilder = new ActionRowBuilder<ButtonBuilder>();
 
-        for (let index = 0; index <= RollUIModel.MaxRiskReduction; index++) {
+        for (let index = 0; index <= RollModel.MaxRiskReduction; index++) {
             rowBuilder.addComponents(this.render_risk_button(index));
         }
 
@@ -84,7 +94,7 @@ export default class RollUIView {
         return new ButtonBuilder()
             .setStyle(value === this.model.riskReduction ? ButtonStyle.Primary : ButtonStyle.Secondary)
             .setLabel(`RR ${value}`)
-            .setCustomId(`${RollUIModel.RiskPrefix}_${value}`);
+            .setCustomId(`${RollModel.RiskPrefix}_${value}`);
     }
 
     private *render_modifier(): Generator<JSONEncodable<APIMessageTopLevelComponent>> {
@@ -104,14 +114,14 @@ export default class RollUIView {
         return new ButtonBuilder()
             .setStyle(this.model.hasAdvantage ? ButtonStyle.Primary : ButtonStyle.Secondary)
             .setLabel('Advantage')
-            .setCustomId(`${RollUIModel.ModifierPrefix}_${RollUIModel.AdvantageModifierId}`);
+            .setCustomId(`${RollModel.ModifierPrefix}_${RollModel.AdvantageModifierId}`);
     }
 
     private render_modifier_disadvantage(): ButtonBuilder {
         return new ButtonBuilder()
             .setStyle(this.model.hasDisadvantage ? ButtonStyle.Primary : ButtonStyle.Secondary)
             .setLabel('Disadvantage')
-            .setCustomId(`${RollUIModel.ModifierPrefix}_${RollUIModel.DisadvantageModifierId}`);
+            .setCustomId(`${RollModel.ModifierPrefix}_${RollModel.DisadvantageModifierId}`);
     }
 
     private *render_roll(): Generator<JSONEncodable<APIMessageTopLevelComponent>> {
@@ -130,7 +140,7 @@ export default class RollUIView {
         return new ButtonBuilder()
             .setStyle(ButtonStyle.Success)
             .setLabel('Roll')
-            .setCustomId(RollUIModel.RollPrefix);
+            .setCustomId(RollModel.RollPrefix);
     }
 
     private render_separator(): SeparatorBuilder {
