@@ -1,7 +1,11 @@
 export default class RollUIModel {
+    public static readonly ModifierPrefix: string = 'mod';
     public static readonly PoolPrefix: string = 'pool';
     public static readonly RiskPrefix: string = 'risk';
     public static readonly RollPrefix: string = 'roll';
+
+    public static readonly AdvantageModifierId: string = 'a';
+    public static readonly DisadvantageModifierId: string = 'd';
 
     public static readonly MaxDicePool: number = 20;
     public static readonly MaxRiskReduction: number = 3;

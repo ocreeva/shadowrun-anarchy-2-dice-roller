@@ -45,6 +45,10 @@ export default class RollUICommand implements ICommand {
                 this.collect_risk(parseInt(id), model);
                 break;
 
+            case RollUIModel.ModifierPrefix:
+                this.collect_modifier(id, model);
+                break;
+
             case RollUIModel.RollPrefix:
                 // TODO: roll
                 break;
@@ -78,6 +82,24 @@ export default class RollUICommand implements ICommand {
         }
 
         model.riskReduction = value;
+    }
+
+    private collect_modifier(modifier: string, model: RollUIModel) {
+        switch (modifier) {
+            case RollUIModel.AdvantageModifierId:
+                model.hasAdvantage = !model.hasAdvantage;
+                model.hasDisadvantage = false;
+                break;
+
+            case RollUIModel.DisadvantageModifierId:
+                model.hasAdvantage = false;
+                model.hasDisadvantage = !model.hasDisadvantage;
+                break;
+
+            default:
+                Log.warn(`Unhandled modifier ID: ${modifier}`);
+                break;
+        }
     }
 
     public static instance: ICommand = new RollUICommand();

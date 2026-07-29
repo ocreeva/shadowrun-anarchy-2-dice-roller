@@ -33,6 +33,10 @@ export default class RollUIView {
 
         components.push(this.render_separator());
 
+        components.push(...this.render_modifier());
+
+        components.push(this.render_separator());
+
         components.push(...this.render_roll());
 
         return components;
@@ -81,6 +85,33 @@ export default class RollUIView {
             .setStyle(value === this.model.riskReduction ? ButtonStyle.Primary : ButtonStyle.Secondary)
             .setLabel(`RR ${value}`)
             .setCustomId(`${RollUIModel.RiskPrefix}_${value}`);
+    }
+
+    private *render_modifier(): Generator<JSONEncodable<APIMessageTopLevelComponent>> {
+        yield this.render_modifier_row();
+    }
+
+    private render_modifier_row(): ActionRowBuilder<ButtonBuilder> {
+        const rowBuilder = new ActionRowBuilder<ButtonBuilder>();
+
+        rowBuilder.addComponents(this.render_modifier_advantage());
+        rowBuilder.addComponents(this.render_modifier_disadvantage());
+
+        return rowBuilder;
+    }
+
+    private render_modifier_advantage(): ButtonBuilder {
+        return new ButtonBuilder()
+            .setStyle(this.model.hasAdvantage ? ButtonStyle.Primary : ButtonStyle.Secondary)
+            .setLabel('Advantage')
+            .setCustomId(`${RollUIModel.ModifierPrefix}_${RollUIModel.AdvantageModifierId}`);
+    }
+
+    private render_modifier_disadvantage(): ButtonBuilder {
+        return new ButtonBuilder()
+            .setStyle(this.model.hasDisadvantage ? ButtonStyle.Primary : ButtonStyle.Secondary)
+            .setLabel('Disadvantage')
+            .setCustomId(`${RollUIModel.ModifierPrefix}_${RollUIModel.DisadvantageModifierId}`);
     }
 
     private *render_roll(): Generator<JSONEncodable<APIMessageTopLevelComponent>> {
