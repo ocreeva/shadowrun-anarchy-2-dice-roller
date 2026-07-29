@@ -74,7 +74,7 @@ export default class RollUIView {
         return new ButtonBuilder()
             .setStyle(ButtonStyle.Success)
             .setLabel('Roll')
-            .setCustomId('roll');
+            .setCustomId(RollUIModel.RollPrefix);
     }
 
     private render_separator(): SeparatorBuilder {

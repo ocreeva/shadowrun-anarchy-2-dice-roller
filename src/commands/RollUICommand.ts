@@ -41,6 +41,10 @@ export default class RollUICommand implements ICommand {
                 this.collect_pool(parseInt(id), model);
                 break;
 
+            case RollUIModel.RollPrefix:
+                // TODO: roll
+                break;
+
             default:
                 Log.warn(`Unhandled button prefix for custom ID: ${button.customId}`);
                 break;
