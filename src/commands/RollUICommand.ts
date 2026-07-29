@@ -6,6 +6,11 @@ import { RollUIView } from '@/views';
 
 import type ICommand from './ICommand';
 
+enum CollectionType {
+    Apply,
+    Update,
+}
+
 export default class RollUICommand implements ICommand {
     public data = new SlashCommandBuilder()
         .setName('sra2')
@@ -25,37 +30,46 @@ export default class RollUICommand implements ICommand {
     }
 
     private async collect(interaction: ButtonInteraction, model: RollUIModel): Promise<void> {
-        this.collect_button(interaction.component as ButtonComponent, model);
+        const collectionType = this.collect_button(interaction.component as ButtonComponent, model);
 
-        const view = new RollUIView(model);
+        switch (collectionType) {
+            case CollectionType.Apply:
+                // TODO: roll
+                break;
 
-        interaction.update(view.update());
+            case CollectionType.Update:
+                interaction.update(new RollUIView(model).update());
+                break;
+
+            default:
+                Log.warn(`Unexpected collection type: ${collectionType}`);
+                break;
+        }
     }
 
-    private collect_button(button: ButtonComponent, model: RollUIModel) {
-        if (!button.customId) return;
+    private collect_button(button: ButtonComponent, model: RollUIModel): CollectionType {
+        if (!button.customId) return CollectionType.Update;
 
         const [ prefix, id ] = button.customId.split('_', 2);
         switch (prefix) {
             case RollUIModel.PoolPrefix:
                 this.collect_pool(parseInt(id), model);
-                break;
+                return CollectionType.Update;
 
             case RollUIModel.RiskPrefix:
                 this.collect_risk(parseInt(id), model);
-                break;
+                return CollectionType.Update;
 
             case RollUIModel.ModifierPrefix:
                 this.collect_modifier(id, model);
-                break;
+                return CollectionType.Update;
 
             case RollUIModel.RollPrefix:
-                // TODO: roll
-                break;
+                return CollectionType.Apply;
 
             default:
                 Log.warn(`Unhandled button prefix for custom ID: ${button.customId}`);
-                break;
+                return CollectionType.Update;
         }
     }
 
