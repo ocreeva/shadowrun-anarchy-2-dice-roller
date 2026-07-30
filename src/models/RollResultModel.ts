@@ -2,10 +2,26 @@ import GlitchSeverity from './GlitchSeverity';
 import RollModel from './RollModel';
 
 class RollResultModel {
-    constructor(private readonly roll: RollModel) { }
+    public static generate(roll: RollModel): RollResultModel {
+        const { dicePool, riskDice } = roll;
+        return new RollResultModel(
+            roll,
+            RollResultModel.generate_diceResults(dicePool - riskDice).toArray(),
+            RollResultModel.generate_diceResults(riskDice).toArray(),
+        );
+    }
 
-    public pool: number[] = [];
-    public risk: number[] = [];
+    private static *generate_diceResults(count: number): Generator<number> {
+        for (let index = 0; index < count; index++) {
+            yield Math.floor(1 + Math.random() * 6);
+        }
+    }
+
+    private constructor(
+        private readonly roll: RollModel,
+        public readonly pool: number[],
+        public readonly risk: number[],
+    ) { }
 
     get hits(): number {
         const hitThreshold = this.roll.hitThreshold;

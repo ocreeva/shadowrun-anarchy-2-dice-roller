@@ -1,6 +1,7 @@
 import {
     ActionRowBuilder,
     type APIMessageTopLevelComponent,
+    type BaseInteraction,
     ButtonBuilder,
     ButtonStyle,
     type InteractionReplyOptions,
@@ -12,11 +13,11 @@ import {
 
 import { RollModel } from "@/models";
 
-export default class RollView {
+class RollView {
     private readonly PoolGridWidth: number = 5;
     private readonly PoolGridHeight: number = 4;
 
-    constructor(private readonly model: RollModel) {}
+    constructor(private readonly interaction: BaseInteraction, private readonly model: RollModel) {}
 
     public generate(): InteractionReplyOptions {
         return {
@@ -147,3 +148,5 @@ export default class RollView {
         return new SeparatorBuilder();
     }
 }
+
+export default RollView;

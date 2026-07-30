@@ -1,8 +1,8 @@
 import { ButtonComponent, ButtonInteraction, CommandInteraction, ComponentType, SlashCommandBuilder } from 'discord.js';
 
-import { RollModel } from '@/models';
+import { RollModel, RollResultModel } from '@/models';
 import { Log } from '@/services';
-import { RollView } from '@/views';
+import { RollResultView, RollView } from '@/views';
 
 import type ICommand from './ICommand';
 
@@ -11,14 +11,14 @@ enum CollectionType {
     Update,
 }
 
-export default class RollCommand implements ICommand {
+class RollCommand implements ICommand {
     public data = new SlashCommandBuilder()
         .setName('sra2')
         .setDescription('Roll UI for Shadowrun Anarchy 2.0');
 
     public async execute(interaction: CommandInteraction): Promise<void> {
         const model = new RollModel();
-        const view = new RollView(model);
+        const view = new RollView(interaction, model);
 
         const response = await interaction.reply(view.generate());
         const collector = response.createMessageComponentCollector({
@@ -33,13 +33,18 @@ export default class RollCommand implements ICommand {
         const collectionType = this.collect_button(interaction.component as ButtonComponent, model);
 
         switch (collectionType) {
-            case CollectionType.Apply:
-                // TODO: roll
+            case CollectionType.Apply: {
+                const resultModel = RollResultModel.generate(model);
+                const resultView = new RollResultView(interaction, resultModel);
+                interaction.reply(resultView.generate());
                 break;
+            }
 
-            case CollectionType.Update:
-                interaction.update(new RollView(model).update());
+            case CollectionType.Update: {
+                const view = new RollView(interaction, model);
+                interaction.update(view.update());
                 break;
+            }
 
             default:
                 Log.warn(`Unexpected collection type: ${collectionType}`);
@@ -118,3 +123,5 @@ export default class RollCommand implements ICommand {
 
     public static instance: ICommand = new RollCommand();
 }
+
+export default RollCommand;
