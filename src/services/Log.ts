@@ -13,7 +13,7 @@ const logger = pino({
     },
 }));
 
-export default class Log {
+class Log {
     public static info(message: string, obj?: unknown): void {
         if (obj) {
             logger.info(obj, message);
@@ -38,3 +38,5 @@ export default class Log {
         }
     }
 }
+
+export default Log;
